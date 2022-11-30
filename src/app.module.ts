@@ -3,12 +3,17 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersController } from './users/users.controller';
-import { EmployeesModule } from './employees/employees.module';
+import { ConfigModule } from '@nestjs/config';
+import { ProductsModule } from './products/products.module';
+
+ConfigModule.forRoot({
+  envFilePath: '.env',
+});
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://root:96V8jJJeCV12DMmP@cluster0.nfig7vw.mongodb.net/test'),
-    EmployeesModule
+    MongooseModule.forRoot(process.env.DATABASE_MONGO_URL),
+    ProductsModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService],
